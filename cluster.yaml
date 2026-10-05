@@ -1,0 +1,14 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: demo-cluster
+  region: us-east-1
+availabilityZones: ["us-east-1a", "us-east-1b"]
+accessConfig:
+  authenticationMode: API
+managedNodeGroups:
+  - name: ng-lab
+    instanceType: t3.medium
+    desiredCapacity: 1
+    minSize: 1
+    maxSize: 1

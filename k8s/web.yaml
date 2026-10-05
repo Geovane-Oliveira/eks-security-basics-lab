@@ -1,0 +1,30 @@
+# Starts with the official nginx image on purpose: it runs as root,
+# so runAsNonRoot blocks it. The article then swaps the image with
+# kubectl set image, keeping every security setting below unchanged.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web
+  namespace: app
+spec:
+  automountServiceAccountToken: false
+  securityContext:
+    seccompProfile:
+      type: RuntimeDefault
+  containers:
+    - name: web
+      image: nginx
+      ports:
+        - containerPort: 8080
+      securityContext:
+        runAsNonRoot: true
+        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: true
+        capabilities:
+          drop: ["ALL"]
+      volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+  volumes:
+    - name: tmp
+      emptyDir: {}
