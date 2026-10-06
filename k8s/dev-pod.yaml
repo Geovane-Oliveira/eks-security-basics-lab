@@ -1,0 +1,27 @@
+# A developer's Pod that reuses the application's ServiceAccount (app-sa).
+# It complies with the restricted Pod Security Standard, so admission lets it in.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dev-pod
+  namespace: app
+spec:
+  serviceAccountName: app-sa
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    seccompProfile:
+      type: RuntimeDefault
+  containers:
+    - name: cli
+      image: amazon/aws-cli
+      command: ["sleep", "3600"]
+      env:
+        - name: AWS_REGION
+          value: us-east-1
+        - name: HOME
+          value: /tmp
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop: ["ALL"]
