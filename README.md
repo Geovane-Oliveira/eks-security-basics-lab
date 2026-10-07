@@ -1,6 +1,5 @@
 # eks-security-basics-lab
-
-Companion files for the article "What can this pod actually do? Where I start with EKS security".
+Files for the article "What can this pod actually do? Where I start with EKS security".
 
 Requirements: AWS CLI v2, kubectl, eksctl and bash, authenticated with an IAM role.
 
@@ -17,3 +16,5 @@ eksctl create cluster -f cluster.yaml
 ```
 
 This lab creates billable resources (EKS, EC2, NAT Gateway, CloudWatch Logs). Run `./99-cleanup.sh` when you're done.
+
+This is a test environment. Some insecure choices are kept on purpose, including a Kubernetes API endpoint open to `0.0.0.0/0` and a broad Edit policy for the developer role. Don't use this configuration in production
